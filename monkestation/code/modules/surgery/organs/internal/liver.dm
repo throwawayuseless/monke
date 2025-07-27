@@ -47,6 +47,19 @@
 			to_chat(owner, span_warning("Alert: Reagent processing unit failure, seek maintenance for diagnostic. Error Code: DR-0k"))
 			apply_organ_damage(SYNTH_ORGAN_LIGHT_EMP_DAMAGE, maximum = maxHealth, required_organ_flag = ORGAN_ROBOTIC)
 
+/obj/item/organ/internal/liver/bone/handle_chemical(mob/living/carbon/organ_owner, datum/reagent/chem, seconds_per_tick, times_fired)
+	. = ..()
+	//parent returned COMSIG_MOB_STOP_REAGENT_CHECK or we are failing
+	if(. || (organ_flags & ORGAN_FAILING))
+		return
+	if(chem.type == /datum/reagent/fuel)
+		var/booze_power = 35
+		if(HAS_TRAIT(victim, TRAIT_ALCOHOL_TOLERANCE)) //we're an accomplished drinker
+			booze_power *= 0.7
+		if(HAS_TRAIT(victim, TRAIT_LIGHT_DRINKER))
+			booze_power *= 2
+		organ_owner.adjust_drunk_effect(sqrt(chem.volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
+
 /datum/design/synth_liver
 	name = "Reagent Processing Unit"
 	desc = "An electronic device that processes the beneficial chemicals for the synthetic user."
