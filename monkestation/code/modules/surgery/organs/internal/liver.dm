@@ -54,7 +54,7 @@
 		return
 	if(chem.type == /datum/reagent/fuel)
 		var/booze_power = 35
-		if(HAS_TRAIT(victim, TRAIT_ALCOHOL_TOLERANCE)) //we're an accomplished drinker
+		if(HAS_TRAIT(organ_owner, TRAIT_ALCOHOL_TOLERANCE)) //we're an accomplished drinker
 			booze_power *= 0.7
 		if(HAS_TRAIT(victim, TRAIT_LIGHT_DRINKER))
 			booze_power *= 2
