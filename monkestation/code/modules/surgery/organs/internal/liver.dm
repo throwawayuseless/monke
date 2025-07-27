@@ -56,7 +56,7 @@
 		var/booze_power = 35
 		if(HAS_TRAIT(organ_owner, TRAIT_ALCOHOL_TOLERANCE)) //we're an accomplished drinker
 			booze_power *= 0.7
-		if(HAS_TRAIT(victim, TRAIT_LIGHT_DRINKER))
+		if(HAS_TRAIT(organ_owner, TRAIT_LIGHT_DRINKER))
 			booze_power *= 2
 		organ_owner.adjust_drunk_effect(sqrt(chem.volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
 
