@@ -52,14 +52,6 @@
 	//parent returned COMSIG_MOB_STOP_REAGENT_CHECK or we are failing
 	if(. || (organ_flags & ORGAN_FAILING))
 		return
-	if(istype(chem, /datum/reagent/fuel))
-		var/booze_power = 35
-		if(HAS_TRAIT(organ_owner, TRAIT_ALCOHOL_TOLERANCE))
-			booze_power *= 0.7
-		if(HAS_TRAIT(organ_owner, TRAIT_LIGHT_DRINKER))
-			booze_power *= 2
-		organ_owner.adjust_drunk_effect(sqrt(chem.volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
-		return
 
 /datum/design/synth_liver
 	name = "Reagent Processing Unit"
