@@ -440,8 +440,8 @@
 	return to_add
 
 /datum/species/ipc/handle_chemical(datum/reagent/chem, mob/living/carbon/human/H, seconds_per_tick, times_fired)
-	if(chem.type == /datum/reagent/fuel)
-		var/booze_power = 35
+	if(chem?.synthetic_boozepwr)
+		var/booze_power = chem?.synthetic_boozepwr
 		if(HAS_TRAIT(H, TRAIT_ALCOHOL_TOLERANCE))
 			booze_power *= 0.7
 		if(HAS_TRAIT(H, TRAIT_LIGHT_DRINKER))
