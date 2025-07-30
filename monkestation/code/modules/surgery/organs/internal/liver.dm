@@ -58,7 +58,7 @@
 			booze_power *= 0.7
 		if(HAS_TRAIT(organ_owner, TRAIT_LIGHT_DRINKER))
 			booze_power *= 2
-		organ_owner.adjust_drunk_effect(sqrt(chem.volume) * booze_power * ALCOHOL_RATE)
+		organ_owner.adjust_drunk_effect(sqrt(chem.volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
 		return
 
 /datum/design/synth_liver
