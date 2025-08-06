@@ -350,7 +350,7 @@
 		return
 	var/mob/living/rider = owner
 	var/turf/landing_turf = get_step(vehicle.loc, vehicle.dir)
-	var/tony_hawk = HAS_TRAIT(affected_mob, TRAIT_PRO_SKATER) ? 0.5 : 1
+	var/tony_hawk = HAS_TRAIT(rider, TRAIT_PRO_SKATER) ? 0.5 : 1
 	rider.stamina.adjust(-vehicle.instability * 0.75 * tony_hawk)
 	if (rider.stamina.loss >= 100)
 		vehicle.obj_flags &= ~CAN_BE_HIT
@@ -387,7 +387,7 @@
 /datum/action/vehicle/ridden/scooter/skateboard/kickflip/Trigger(trigger_flags)
 	var/obj/vehicle/ridden/scooter/skateboard/board = vehicle_target
 	var/mob/living/rider = owner
-	var/tony_hawk = HAS_TRAIT(affected_mob, TRAIT_PRO_SKATER) ? 0.5 : 1
+	var/tony_hawk = HAS_TRAIT(rider, TRAIT_PRO_SKATER) ? 0.5 : 1
 
 	rider.stamina.adjust(-board.instability * tony_hawk)
 	if (rider.stamina.loss >= 100)

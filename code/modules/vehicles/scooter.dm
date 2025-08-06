@@ -91,8 +91,8 @@
 		return
 
 	next_crash = world.time + 10
-	var/tony_hawk = HAS_TRAIT(skater, TRAIT_PRO_SKATER) ? 0.5 : 1
 	var/mob/living/rider = buckled_mobs[1]
+	var/tony_hawk = HAS_TRAIT(rider, TRAIT_PRO_SKATER) ? 0.5 : 1
 	rider.stamina.adjust(-instability* 6 * tony_hawk)
 	playsound(src, 'sound/effects/bang.ogg', 40, TRUE)
 	if(!iscarbon(rider) || rider.stamina.loss >= 100 || grinding || iscarbon(bumped_thing))
