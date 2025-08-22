@@ -118,6 +118,7 @@
 /obj/item/clothing/accessory/pocketoperator
 	name = "pocket protector"
 	desc = "Can protect your clothing from ink stains, but prefers to aid in the execution of megacorperate coup d'etats. This one comes fit with a bluespace-enhanced pen pocket for maximum tactical stationary storage."
+	icon_state = "pocketprotector"
 
 /obj/item/clothing/accessory/pocketoperator/Initialize(mapload)
 	. = ..()
@@ -130,6 +131,9 @@
 	new /obj/item/pen/edagger(src)
 	new /obj/item/pen/sleepy(src)
 	new /obj/item/pen/fourcolor(src)
+	new /obj/item/pen/blue/taser(src)
+	new /obj/item/pen/red/explosive(src)
+	new /obj/item/pen(src)
 
 /obj/item/clothing/accessory/dogtag
 	name = "Dogtag"

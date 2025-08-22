@@ -148,6 +148,7 @@
 	degrees = deg
 	to_chat(user, span_notice("You rotate the top of the pen to [deg] degrees."))
 	SEND_SIGNAL(src, COMSIG_PEN_ROTATED, deg, user)
+	handle_rotation(user, deg)
 
 /obj/item/pen/attack(mob/living/M, mob/user, params)
 	if(force) // If the pen has a force value, call the normal attack procs. Used for e-daggers and captain's pen mostly.
@@ -226,6 +227,8 @@
 		use_bold = FALSE,
 	)
 
+/obj/item/pen/proc/handle_rotation(mob/user, degrees_rotated)
+	return
 /*
  * Sleepypens
  */
@@ -409,17 +412,62 @@
 
 /obj/item/pen/red/explosive
 
-/obj/item/pen/explosive/examine(mob/user)
+/obj/item/pen/red/explosive/examine(mob/user)
 	. = ..()
-	var/syndie = IS_NUKE_OP(user) || IS_TRAITOR(user)
-	if(syndie)
-			. += span_info("This pen will cause a small but powerful explosion when the head is rotated. Fuse is 1 second per 10 degrees of rotation.")
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen will cause a small but powerful explosion when the head is rotated. Fuse is 1 second per 10 degrees of rotation.")
 
-/obj/item/pen/explosive/attack_self(mob/user, list/modifiers)
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(detonate)), deg * 0.1 SECONDS)
+/obj/item/pen/red/explosive/handle_rotation(mob/user, degrees_rotated)
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		to_chat(user, span_warning("...thus arming the internal explosive."))
+	addtimer(CALLBACK(src, PROC_REF(detonate)), degrees_rotated * 0.1 SECONDS)
 
-/obj/item/pen/explosive/detonate()
+/obj/item/pen/red/explosive/proc/detonate()
 	explosion(src, 1, 2, 3, 0) //no flames because this is TACTICAL by which i mean it's very concentrated and meant to maximize damage to target and minimize collateral damage
 	qdel(src)
 
+/obj/item/pen/blue/taser
+	var/charged = TRUE
+
+/obj/item/pen/blue/taser/examine(mob/user)
+	. = ..()
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen contains a high-voltage capacitor and miniaturized zero-point power plant. Stabbing a target with it will allow you to briefly incapacitate them. It will have to recharge afterwards.")
+		if(charged)
+			. += span_info("The internal capacitor is charged.")
+		else
+			. += span_info("The internal capacitor is recharging.")
+	return .
+
+/obj/item/pen/blue/taser/attack(mob/living/M, mob/user, params)
+	. = ..()
+	if(charged)
+		M.electrocute_act(300, src, flags = SHOCK_NOGLOVES | SHOCK_ILLUSION | SHOCK_NOSTUN) // it does stamina damage and also conveniently doesnt look like they've been shocked, just that they've suddenly collapsed for no apparent reason. SNEAKY.
+		charged = FALSE
+		addtimer(CALLBACK(src, PROC_REF(recharge)), 60 SECONDS)
+
+/obj/item/pen/blue/taser/proc/recharge()
+	charged = TRUE
+
+/obj/item/pen/cigsynth
+	var/charged = TRUE
+	heat = 1500
+
+/obj/item/pen/cigsynth/examine(mob/user)
+	. = ..()
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen is a combination lighter and special lung-damage free cigarette synthesizer, for operatives with class.")
+		if(charged)
+			. += span_info("The internal capacitor is charged.")
+		else
+			. += span_info("The internal capacitor is recharging.")
+	return .
+
+/obj/item/pen/cigsynth/proc/recharge()
+	charged = TRUE
+
+/obj/item/pen/attack_self(mob/living/carbon/user)
+	var/ciggie = new /obj/item/clothing/mask/cigarette/syndicate/synthesized(src)
+	user.put_in_hands(ciggie)
+	charged = FALSE
+	addtimer(CALLBACK(src, PROC_REF(recharge)), 60 SECONDS)
