@@ -4,6 +4,7 @@
  * Sleepy Pens
  * Parapens
  * Edaggers
+ * other silly pen devices
  */
 
 
@@ -332,6 +333,11 @@
 	SIGNAL_HANDLER
 	LAZYADD(extra_data[DETSCAN_CATEGORY_ILLEGAL], "Hard-light generator detected.")
 
+/obj/item/pen/edagger/examine(mob/user)
+	. = ..()
+	if(IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen hides a hard-light generator that can project a small but extremely sharp blade when activated.")
+	return .
 /obj/item/pen/survival
 	name = "survival pen"
 	desc = "The latest in portable survival technology, this pen was designed as a miniature diamond pickaxe. Watchers find them very desirable for their diamond exterior."
@@ -400,3 +406,20 @@
 	. = ..()
 	icon_state = "[initial(icon_state)][HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) ? "_out" : null]"
 	inhand_icon_state = initial(inhand_icon_state) //since transforming component switches the icon.
+
+/obj/item/pen/red/explosive
+
+/obj/item/pen/explosive/examine(mob/user)
+	. = ..()
+	var/syndie = IS_NUKE_OP(user) || IS_TRAITOR(user)
+	if(syndie)
+			. += span_info("This pen will cause a small but powerful explosion when the head is rotated. Fuse is 1 second per 10 degrees of rotation.")
+
+/obj/item/pen/explosive/attack_self(mob/user, list/modifiers)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(detonate)), deg * 0.1 SECONDS)
+
+/obj/item/pen/explosive/detonate()
+	explosion(src, 1, 2, 3, 0) //no flames because this is TACTICAL by which i mean it's very concentrated and meant to maximize damage to target and minimize collateral damage
+	qdel(src)
+

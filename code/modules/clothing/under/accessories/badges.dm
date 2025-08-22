@@ -115,6 +115,22 @@
 	for(var/i in 1 to 3)
 		new /obj/item/lipstick/random(src)
 
+/obj/item/clothing/accessory/pocketoperator
+	name = "pocket protector"
+	desc = "Can protect your clothing from ink stains, but prefers to aid in the execution of megacorperate coup d'etats. This one comes fit with a bluespace-enhanced pen pocket for maximum tactical stationary storage."
+
+/obj/item/clothing/accessory/pocketoperator/Initialize(mapload)
+	. = ..()
+	create_storage(storage_type = /datum/storage/pockets/pocketprotector/tatortot)
+
+/obj/item/clothing/accessory/pocketoperator/full
+
+/obj/item/clothing/accessory/pocketoperator/full/Initialize(mapload)
+	. = ..()
+	new /obj/item/pen/edagger(src)
+	new /obj/item/pen/sleepy(src)
+	new /obj/item/pen/fourcolor(src)
+
 /obj/item/clothing/accessory/dogtag
 	name = "Dogtag"
 	desc = "Can't wear a collar, but this is fine?"
