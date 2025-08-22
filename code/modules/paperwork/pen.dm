@@ -251,6 +251,10 @@
 	reagents.add_reagent(/datum/reagent/toxin/mutetoxin, 15)
 	reagents.add_reagent(/datum/reagent/toxin/staminatoxin, 10)
 
+/obj/item/pen/sleepy/examine(mob/user)
+	. = ..()
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen contains a 45 unit reagent storage that injects anyone stabbed. It's refillable and comes preloaded with a voice-muting and sedating mix.")
 /*
  * (Alan) Edaggers
  */
@@ -358,6 +362,15 @@
 	font = FOUNTAIN_PEN_FONT
 	colour = "#0000FF"
 
+/obj/item/pen/survival/deluxe
+	toolspeed = 2
+	force = 8
+
+/obj/item/pen/survival/deluxe/examine(mob/user)
+	. = ..()
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This upgraded version of a standard survival pen boasts far-increased digging ability and serves as a passable improvised dagger besides.")
+
 /obj/item/pen/destroyer
 	name = "Fine Tipped Pen"
 	desc = "A pen with an infinitly sharpened tip. Capable of striking the weakest point of a strucutre or robot and annihilating it instantly. Good at putting holes in people too."
@@ -411,20 +424,27 @@
 	inhand_icon_state = initial(inhand_icon_state) //since transforming component switches the icon.
 
 /obj/item/pen/red/explosive
+	var/tator_lookie = "This pen will cause a small but powerful explosion when the head is rotated. Fuse is 1 second per 10 degrees of rotation."
 
 /obj/item/pen/red/explosive/examine(mob/user)
 	. = ..()
 	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
-		. += span_info("This pen will cause a small but powerful explosion when the head is rotated. Fuse is 1 second per 10 degrees of rotation.")
+		. += span_info(tator_lookie)
 
 /obj/item/pen/red/explosive/handle_rotation(mob/user, degrees_rotated)
 	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
-		to_chat(user, span_warning("...thus arming the internal explosive."))
+		to_chat(user, span_warning("...thus arming the internal mechanism."))
 	addtimer(CALLBACK(src, PROC_REF(detonate)), degrees_rotated * 0.1 SECONDS)
 
 /obj/item/pen/red/explosive/proc/detonate()
 	explosion(src, 1, 2, 3, 0) //no flames because this is TACTICAL by which i mean it's very concentrated and meant to maximize damage to target and minimize collateral damage
 	qdel(src)
+
+/obj/item/pen/red/explosive/empen
+	tator_lookie = "This pen will cause a powerful EM pulse in a radius of 5 tiles when the head is rotated. Fuse is 1 second per 10 degrees of rotation."
+
+/obj/item/pen/red/explosive/empen/detonate()
+	empulse(get_turf(src), 5, 5)
 
 /obj/item/pen/blue/taser
 	var/charged = TRUE
@@ -442,32 +462,78 @@
 /obj/item/pen/blue/taser/attack(mob/living/M, mob/user, params)
 	. = ..()
 	if(charged)
-		M.electrocute_act(300, src, flags = SHOCK_NOGLOVES | SHOCK_ILLUSION | SHOCK_NOSTUN) // it does stamina damage and also conveniently doesnt look like they've been shocked, just that they've suddenly collapsed for no apparent reason. SNEAKY.
+		M.electrocute_act(300, src, flags = SHOCK_NOGLOVES | SHOCK_ILLUSION) // it does stamina damage
 		charged = FALSE
 		addtimer(CALLBACK(src, PROC_REF(recharge)), 60 SECONDS)
 
 /obj/item/pen/blue/taser/proc/recharge()
 	charged = TRUE
 
-/obj/item/pen/cigsynth
+/obj/item/pen/fountain/cigsynth
 	var/charged = TRUE
 	heat = 1500
+	var/tator_lookie = "This pen is equipped with an inbuilt lung-damage free healing cigarette synthesizer and lighter, for the classiest of operatives."
 
-/obj/item/pen/cigsynth/examine(mob/user)
+/obj/item/pen/fountain/cigsynth/deluxe
+	heat = 2000
+	force = 30
+	throwforce = 90
+	throw_speed = 5
+	embedding = (embed_chance = 100)
+	icon_state = "pen-fountain-g"
+	desc = "This beautifully crafted fountain pen has no visible inkwell or cartridge slot, and the nib looks like it could probably decapitate someone if you tried hard enough. Just looking at this piece of stationary perfection makes you feel unworthy."
+	sharpness = SHARP_EDGED | SHARP_POINTY
+	wound_bonus = 30
+	resistance_flags = FIRE_PROOF | UNACIDABLE | LAVA_PROOF
+	tool_behavior = TOOL_KNIFE | TOOL_MINING
+	toolspeed = 0.8
+	tator_lookie = "This pen, the S-2 Fountain Gold, is one of syndicate command's extremely expensive premium in-house models. It can write in zero-gravity, has an integrated high-temperature lighter, synthesizes lung-damage free healing cigarettes, has a nigh-monomolecular edge, is weighted so as to be usable as a throwing weapon, is chemically, thermally, and physically resistant, can be used as a knife and as a pickaxe,"
+//it's a REALLY good pen.
+
+/obj/pen/fountain/cigsynth/deluxe/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/eyestab, 11)
+
+/obj/item/pen/fountain/cigsynth/examine(mob/user)
 	. = ..()
 	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
-		. += span_info("This pen is a combination lighter and special lung-damage free cigarette synthesizer, for operatives with class.")
+		. += span_info(tator_lookie)
 		if(charged)
-			. += span_info("The internal capacitor is charged.")
+			. += span_info("The cigarette synthesizer is charged.")
 		else
-			. += span_info("The internal capacitor is recharging.")
+			. += span_info("The cigarette synthesizer is recharging.")
 	return .
 
-/obj/item/pen/cigsynth/proc/recharge()
+/obj/item/pen/fountain/cigsynth/proc/recharge()
 	charged = TRUE
 
-/obj/item/pen/attack_self(mob/living/carbon/user)
-	var/ciggie = new /obj/item/clothing/mask/cigarette/syndicate/synthesized(src)
-	user.put_in_hands(ciggie)
-	charged = FALSE
-	addtimer(CALLBACK(src, PROC_REF(recharge)), 60 SECONDS)
+/obj/item/pen/fountain/cigsynth/attack_self(mob/living/carbon/user)
+	if(charged)
+		var/ciggie = new /obj/item/clothing/mask/cigarette/syndicate/synthesized(src)
+		user.put_in_hands(ciggie)
+		charged = FALSE
+		addtimer(CALLBACK(src, PROC_REF(recharge)), 30 SECONDS)
+
+/obj/item/pen/fourcolor/biosampler
+
+/obj/item/pen/fourcolor/biosampler/examine(mob/user)
+	. = ..()
+	if (IS_NUKE_OP(user) || IS_TRAITOR(user))
+		. += span_info("This pen can be used to discretely sample biomarkers from targets. Change the color for mode selection functionality.")
+
+/obj/item/pen/fourcolor/biosampler/attack(mob/living/M, mob/user, params)
+	. = ..()
+	var/did_it_work = TRUE
+	if(!iscarbon(M))
+		did_it_work = FALSE
+	switch(color)
+		if("#000000")
+			var/mob/living/carbon/ourguy = M
+			var/datum/dna/ourdna = ourguy?.dna
+			if(ourdna)
+				to_chat(user, span_notice("Unique Enzymes: [ourdna.unique_enzymes], Unique Identity: [ourdna.unique_identity]."))
+			else
+				did_it_work = FALSE
+	if(!did_it_work)
+		to_chat(user, span_warning("Could not sample biomarkers."))
+

@@ -130,10 +130,12 @@
 	. = ..()
 	new /obj/item/pen/edagger(src)
 	new /obj/item/pen/sleepy(src)
-	new /obj/item/pen/fourcolor(src)
+	new /obj/item/pen/fourcolor/biosampler(src)
 	new /obj/item/pen/blue/taser(src)
 	new /obj/item/pen/red/explosive(src)
-	new /obj/item/pen(src)
+	new /obj/item/pen/cigsynth(src)
+	new /obj/item/pen/red/explosive/empen(src)
+	new /obj/item/pen/survival/deluxe(src)
 
 /obj/item/clothing/accessory/dogtag
 	name = "Dogtag"
