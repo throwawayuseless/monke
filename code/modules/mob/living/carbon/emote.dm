@@ -201,7 +201,7 @@
 		new /obj/effect/particle_effect/sparks(get_turf(user))
 		var/obj/item/clothing/mask/cigarette/held = user.get_active_held_item()
 		if(istype(held))
-			held.light(span_notice("The [src] ignites with a flash of sparks as [user] snaps [user.p_their()] fingers! <b>Damn.</b> <i>That's badass.</i>"))
+			held.light(span_notice("The [held] ignites with a flash of sparks as [user] snaps [user.p_their()] fingers! <b>Damn.</b> <i>That's badass.</i>"))
 /datum/emote/living/carbon/snap/volume_modification(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
