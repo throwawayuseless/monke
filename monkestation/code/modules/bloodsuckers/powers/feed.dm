@@ -34,6 +34,9 @@
 	var/notified_overfeeding = FALSE
 	var/datum/looping_sound/zucc/soundloop
 
+/datum/action/cooldown/bloodsucker/feed/Grant(mob/user)
+	. = ..()
+	soundloop = new(src, FALSE)
 /datum/action/cooldown/bloodsucker/feed/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
@@ -76,8 +79,6 @@
 	return ..()
 
 /datum/action/cooldown/bloodsucker/feed/ActivatePower(trigger_flags)
-	if(!soundloop)
-		soundloop = new(src, FALSE)
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/basic/mouse))
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
@@ -193,8 +194,9 @@
 		feed_strength_mult = 1
 	else
 		feed_strength_mult = 0.3
-	if(istype(owner.get_active_held_item(), /obj/item/comically_large_straw))
-		feed_strength_mult *= owner.get_active_held_item().suck_power
+	var/obj/item/comically_large_straw/held = owner.get_active_held_item()
+	if(istype(held))
+		feed_strength_mult *= held.suck_power
 		soundloop.start()
 	else
 		soundloop.stop()

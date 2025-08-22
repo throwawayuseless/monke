@@ -1,5 +1,5 @@
 /obj/item/comically_large_straw
-	name = "Comically Large Straw"
+	name = "\improper Comically Large Straw"
 	desc = "For when you're only allowed one sip."
 	icon = 'icons/obj/toys/straws.dmi' // my thanks to moth nyan for these sprites
 	icon_state = "straw1"
@@ -34,7 +34,7 @@
 	soundloop.stop()
 
 /obj/item/comically_large_straw/meme
-	name = "Comically Debuggy Straw"
+	name = "\improper Comically Debuggy Straw"
 	desc = "Admemery has allowed this straw to drink directly from people's reagentholders at super speed. Fucked up."
 	check_living = FALSE
 	suck_power = 10

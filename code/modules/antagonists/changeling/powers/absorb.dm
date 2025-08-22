@@ -146,7 +146,10 @@
 				target.take_overall_damage(40)
 
 		SSblackbox.record_feedback("nested tally", "changeling_powers", 1, list("Absorb DNA", "[absorbing_iteration]"))
-		var/speed_mult = istype(owner.get_active_held_item(), /obj/item/comically_large_straw) ? owner.get_active_held_item().suck_power : 1
+		var/obj/item/comically_large_spoon/held = owner.get_active_held_item()
+		var/speed_mult = 1
+		if(istype(held))
+			speed_mult = held.suck_power
 		if(speed_mult > 1)
 			zucckynoises.start()
 		if(!do_after(owner, 15 / speed_mult SECONDS, target))
