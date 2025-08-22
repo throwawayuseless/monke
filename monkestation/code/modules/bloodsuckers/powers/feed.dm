@@ -34,9 +34,6 @@
 	var/notified_overfeeding = FALSE
 	var/datum/looping_sound/zucc/soundloop
 
-/datum/action/cooldown/bloodsucker/feed/Grant(mob/user)
-	. = ..()
-	soundloop = new(src, FALSE)
 /datum/action/cooldown/bloodsucker/feed/can_use(mob/living/carbon/user, trigger_flags)
 	. = ..()
 	if(!.)
@@ -161,6 +158,8 @@
 		return ..() //Manage our cooldown timers
 	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref?.resolve()
+	if(!soundloop)
+		soundloop = new(owner, FALSE)
 	if(QDELETED(feed_target))
 		DeactivatePower()
 		return PROCESS_KILL

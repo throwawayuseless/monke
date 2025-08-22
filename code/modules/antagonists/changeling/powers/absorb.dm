@@ -133,7 +133,7 @@
 
 /datum/action/changeling/absorb_dna/proc/attempt_absorb(mob/living/carbon/human/target)
 	if(!zucckynoises)
-		zucckynoises = new(src, FALSE)
+		zucckynoises = new(owner, FALSE)
 	for(var/absorbing_iteration in 1 to 3)
 		switch(absorbing_iteration)
 			if(1)
@@ -146,7 +146,7 @@
 				target.take_overall_damage(40)
 
 		SSblackbox.record_feedback("nested tally", "changeling_powers", 1, list("Absorb DNA", "[absorbing_iteration]"))
-		var/obj/item/comically_large_spoon/held = owner.get_active_held_item()
+		var/obj/item/comically_large_straw/held = owner.get_active_held_item()
 		var/speed_mult = 1
 		if(istype(held))
 			speed_mult = held.suck_power
