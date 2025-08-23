@@ -133,7 +133,7 @@
 	new /obj/item/pen/fourcolor/biosampler(src)
 	new /obj/item/pen/blue/taser(src)
 	new /obj/item/pen/red/explosive(src)
-	new /obj/item/pen/cigsynth(src)
+	new /obj/item/pen/fountain/cigsynth(src)
 	new /obj/item/pen/red/explosive/empen(src)
 	new /obj/item/pen/survival/deluxe(src)
 
