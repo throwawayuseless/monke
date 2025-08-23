@@ -398,9 +398,9 @@
 	id = "marker_beacon"
 	build_type = PROTOLATHE
 	materials = list(
-		/datum/material/iron = SHEET_MATERIAL_AMOUNT*5
-		/datum/material/glass = SHEET_MATERIAL_AMOUNT*3
-		/datum/material/plastic = SHEET_MATERIAL_AMOUNT*3
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT*5,
+		/datum/material/glass = SHEET_MATERIAL_AMOUNT*3,
+		/datum/material/plastic = SHEET_MATERIAL_AMOUNT*3,
 	)
 	build_path = /obj/item/stack/marker_beacon/thirty
 	category = list(
