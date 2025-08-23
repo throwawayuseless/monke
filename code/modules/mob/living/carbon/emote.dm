@@ -203,7 +203,7 @@
 		if(istype(held))
 			held.light(span_notice("The [held] ignites with a flash of sparks as [user] snaps [user.p_their()] fingers! <b>Damn.</b> <i>That's badass.</i>"))
 
-/datum/emote/living/carbon/snap/volume_modification(mob/user)
+/datum/emote/living/carbon/snap/get_emote_volume(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
 		return volume + 70
