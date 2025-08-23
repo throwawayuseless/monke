@@ -211,6 +211,8 @@
 
 /datum/emote/living/carbon/snap/super/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
+	if(!.)
+		return
 	new /obj/effect/particle_effect/sparks(get_turf(user))
 	var/obj/item/clothing/mask/cigarette/held = user.get_active_held_item()
 	if(istype(held))
