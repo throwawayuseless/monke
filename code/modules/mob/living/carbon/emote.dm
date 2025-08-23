@@ -208,6 +208,7 @@
 	if(HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
 		return volume + 70
 	return
+
 /datum/emote/living/carbon/snap/get_sound(mob/living/user)
 	if(ishuman(user))
 		return pick('sound/misc/fingersnap1.ogg', 'sound/misc/fingersnap2.ogg')

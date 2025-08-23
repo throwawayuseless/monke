@@ -252,6 +252,7 @@
  */
 /datum/emote/proc/select_param(mob/user, params)
 	return replacetext(message_param, "%t", params)
+
 /**
  * Check to see if the user is allowed to run the emote.
  *
