@@ -6,5 +6,5 @@
 	mob_trait = TRAIT_PANACHEFUL_SNAPS
 	gain_text = span_notice("You feel snappy.")
 	lose_text = span_danger("Your finger snaps return to anatomically possible volumes.")
-	medical_record_text = "Patient often snaps their fingers unconciously. Possibly a nervous tic."
+	medical_record_text = "Patient has abnormally strong fingers. (And is damn stylish too...)"
 	mail_goodies = list(/obj/item/clothing/gloves/fingerless)
