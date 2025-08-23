@@ -476,23 +476,40 @@
 
 /obj/item/pen/fountain/cigsynth/deluxe
 	heat = 2000
-	force = 30
-	throwforce = 90
+	force = 31 //mightier than the sword
+	throwforce = 60
 	throw_speed = 5
-	embedding = (embed_chance = 100)
+	embedding = ("embed_chance" = 100)
 	icon_state = "pen-fountain-g"
-	desc = "This beautifully crafted fountain pen has no visible inkwell or cartridge slot, and the nib looks like it could probably decapitate someone if you tried hard enough. Just looking at this piece of stationary perfection makes you feel unworthy."
+	desc = "This sterling piece of stationery sits before you. Its spear-point nib shines sharp as a sunbeam, slashing silent soliloquies into your visual cortex. This is no normal pen. <b>You are unworthy of it.</b>"
 	sharpness = SHARP_EDGED | SHARP_POINTY
 	wound_bonus = 30
 	resistance_flags = FIRE_PROOF | UNACIDABLE | LAVA_PROOF
-	tool_behavior = TOOL_KNIFE | TOOL_MINING
+	tool_behaviour = TOOL_KNIFE | TOOL_MINING
 	toolspeed = 0.8
-	tator_lookie = "This pen, the S-2 Fountain Gold, is one of syndicate command's extremely expensive premium in-house models. It can write in zero-gravity, has an integrated high-temperature lighter, synthesizes lung-damage free healing cigarettes, has a nigh-monomolecular edge, is weighted so as to be usable as a throwing weapon, is chemically, thermally, and physically resistant, can be used as a knife and as a pickaxe,"
+	tator_lookie = "This pen, the S-2 Fountain Gold, is one of Syndicate high-command's extremely expensive premium in-house models. It can write in zero-gravity, has an integrated high-temperature lighter, synthesizes lung-damage free healing cigarettes, has a nigh-monomolecular edge, is weighted so as to be usable as a throwing weapon, is chemically, thermally, and physically resistant, has an inbuilt chameleon circuit to disguise it as a normal pen on cursory inspection, can be used as a knife and as a pickaxe, and writes damn good besides. Alt-Click to disguise it."
+	var/disguised = FALSE
 //it's a REALLY good pen.
 
 /obj/pen/fountain/cigsynth/deluxe/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/eyestab, 11)
+	AddElement(/datum/element/eyestab, 25) //this doesnt do 25 eye damage this means it does 25 damage on an eyestab instead of 31 on a normal hit
+
+/obj/pen/fountain/cigsynth/deluxe/AltClick(mob/user)
+	. = ..()
+	if(IS_NUKE_OP(user) || IS_TRAITOR(user))
+		if(src.disguised)
+			desc = initial(desc)
+			force = initial(force)
+			throwforce = initial(throwforce)
+			icon_state = initial(icon_state)
+			src.disguised = FALSE
+		else
+			desc = /obj/item/pen::desc
+			force = /obj/item/pen::force
+			throwforce = /obj/item/pen::throwforce
+			icon_state = /obj/item/pen::icon_state
+			src.disguised = TRUE
 
 /obj/item/pen/fountain/cigsynth/examine(mob/user)
 	. = ..()
