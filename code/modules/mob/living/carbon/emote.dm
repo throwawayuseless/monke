@@ -205,7 +205,7 @@
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
 		return TRUE
-	else:
+	else
 		to_chat(user, span_warning("You aren't stylish enough to snap like that!"))
 		return FALSE
 
