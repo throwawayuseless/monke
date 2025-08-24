@@ -396,7 +396,7 @@
 /datum/design/marker_beacon
 	name = "Marker Beacon (x30)"
 	id = "marker_beacon"
-	build_type = PROTOLATHE
+	build_type = PROTOLATHE | AUTOLATHE | AWAY_LATHE
 	materials = list(
 		/datum/material/iron = SHEET_MATERIAL_AMOUNT*5,
 		/datum/material/glass = SHEET_MATERIAL_AMOUNT*3,
