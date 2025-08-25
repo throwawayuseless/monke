@@ -203,11 +203,10 @@
 
 /datum/emote/living/carbon/snap/super/can_run_emote(mob/user, status_check, intentional)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
-		return TRUE
-	else
+	if(!HAS_TRAIT(user, TRAIT_PANACHEFUL_SNAPS))
 		to_chat(user, span_warning("You aren't stylish enough to snap like that!"))
 		return FALSE
+	return TRUE
 
 /datum/emote/living/carbon/snap/super/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
