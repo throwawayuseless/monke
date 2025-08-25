@@ -114,15 +114,13 @@
 	var/dchatmsg = "<b>[user]</b> [msg]"
 
 	var/tmp_sound = get_sound(user)
-	var/emote_volume
-	emote_volume = get_emote_volume(user)
 	if(tmp_sound && should_play_sound(user, intentional) && !TIMER_COOLDOWN_CHECK(user, type))
 		TIMER_COOLDOWN_START(user, type, audio_cooldown)
 		var/tmp_vary = should_vary(user)
 		playsound(
 			source = user,
 			soundin = tmp_sound,
-			vol = emote_volume,
+			vol = get_emote_volume(user),
 			vary = tmp_vary,
 			extrarange = extra_range,
 			falloff_exponent = falloff_exponent,
@@ -183,6 +181,7 @@
 
 /datum/emote/proc/get_emote_volume(mob/living/user)
 	return volume
+
 /**
  * To replace pronouns in the inputed string with the user's proper pronouns.
  *
