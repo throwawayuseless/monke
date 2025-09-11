@@ -444,3 +444,10 @@
 	can_be_randomly_generated = FALSE
 
 	wound_path_to_generate = /datum/wound/slash/flesh/critical/cleave
+
+/datum/wound/slash/metal
+	name = "Slashing (Cut) Electrical Wound"
+	processes = TRUE
+	treatable_by = list(/obj/item/stack/cable_coil, /obj/item/stack/sticky_tape)
+	base_treat_time = 3 SECONDS
+	wound_flags = (ACCEPTS_GAUZE|CAN_BE_GRASPED) //i imagine you're just holding two cut wires together between your fingers
