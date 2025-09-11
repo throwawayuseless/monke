@@ -445,9 +445,28 @@
 
 	wound_path_to_generate = /datum/wound/slash/flesh/critical/cleave
 
+/datum/wound_pregen_data/metal_slash
+	abstract = TRUE
+
+	required_wounding_types = list(WOUND_SLASH)
+	required_limb_biostate = BIO_WIRED
+
+	wound_series = WOUND_SERIES_METAL_SLASH_SPARK
+
 /datum/wound/slash/metal
 	name = "Slashing (Cut) Electrical Wound"
 	processes = TRUE
 	treatable_by = list(/obj/item/stack/cable_coil, /obj/item/stack/sticky_tape)
 	base_treat_time = 3 SECONDS
 	wound_flags = (ACCEPTS_GAUZE|CAN_BE_GRASPED) //i imagine you're just holding two cut wires together between your fingers
+	var/sparkiness = 10
+
+/datum/wound/slash/metal/handle_process(seconds_per_tick, times_fired)
+	. = ..()
+	if (QDELETED(victim) || HAS_TRAIT(victim, TRAIT_STASIS))
+		return
+
+	if(prob(sparkiness/2))
+		victim.do_sparks(round(clamp(sparkiness / 20, 1, 5), 1), FALSE)
+		victim.electrocute_act(2, src, flags=(SHOCK_NOGLOVES | SHOCK_SUPPRESS_MESSAGE | SHOCK_NOSTUN))
+
