@@ -507,3 +507,16 @@
 	desc = "A delicate silk scarf with tiny sparkling fragments woven into the fabric."
 	icon_state = "starshawl"
 	icon = 'icons/obj/clothing/neck.dmi'
+
+/obj/item/clothing/neck/telescarf
+	name = "\improper Noospheric Telelocational Band"
+	desc = "This necklace can detect the noospheric fluctuations created by the speech of sentient creatures and finely tune a teleportation device to target them, allowing for instantaneous spatial- Ok skipping that, it works like the movie Beetlejuice. Say a thing three times and the wearer gets teleported."
+	icon_state = "modlink"
+	var/has_core
+	var/beetlejuice = "Beetlejuice"
+	var/datum/component/beetlejuice/funny
+
+/obj/item/clothing/neck/telescarf/equipped(mob/living/user, slot)
+	. = ..()
+	if(has_core)
+		funny = user.AddComponent(/datum/component/beetlejuice, keyword=beetlejuice, cooldown=15 SECONDS)
