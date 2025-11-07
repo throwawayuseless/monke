@@ -54,6 +54,10 @@
 	inhand_icon_state = "holy_arrow"
 	projectile_type = /obj/projectile/bullet/reusable/arrow/holy
 
+/obj/item/ammo_casing/caseless/arrow/holy/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/bane_inducing, null, "holy things")
+
 /// holy arrow projectile
 /obj/projectile/bullet/reusable/arrow/holy
 	name = "holy arrow"
@@ -66,6 +70,7 @@
 	. = ..()
 	//50 damage to revenants
 	AddElement(/datum/element/bane, target_type = /mob/living/basic/revenant, damage_multiplier = 0, added_damage = 30)
+	AddComponent(/datum/component/bane_inducing, null, "holy things")
 
 /// special pyre sect arrow
 /// in the future, this needs a special sprite, but bows don't support non-hardcoded arrow sprites
