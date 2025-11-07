@@ -5,6 +5,7 @@
 	/// The proc used to handle the parent [/atom] when processing.
 	var/datum/callback/process_effect
 	var/list/datum/material/our_bane
+	var/list/nonmaterial_bane_keys
 	var/bane_power = 0
 	var/was_baned = FALSE
 	var/damaging
@@ -15,7 +16,7 @@
 
 	COOLDOWN_DECLARE(active_message_cooldown)
 
-/datum/component/material_bane/Initialize(our_bane = list(/datum/material/silver), damaging = TRUE, effect_power = 1, max_bane_power = 500, bane_speed_mult = 1)
+/datum/component/material_bane/Initialize(our_bane = list(/datum/material/silver), damaging = TRUE, effect_power = 1, max_bane_power = 500, bane_speed_mult = 1, nonmaterial_bane_keys = list("dummy"))
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	src.our_bane = our_bane
@@ -23,6 +24,7 @@
 	src.effect_power = effect_power
 	src.max_bane_power = max_bane_power
 	src.bane_speed_mult = bane_speed_mult
+	src.nonmaterial_bane_keys = nonmaterial_bane_keys
 	sizzle = new(parent)
 	START_PROCESSING(SSfastprocess, src)
 
@@ -160,6 +162,10 @@
 		var/datum/material/possible_ouch = GET_MATERIAL_REF(material)
 		if(is_type_in_list(possible_ouch, our_bane))
 			return TRUE
+	for(var/key in ough?.bane_keys)
+		if(key in nonmaterial_bane_keys)
+			return TRUE
+			
 	return FALSE
 
 /datum/component/material_bane/proc/weapon_hit_check(mob/living/oughed, obj/item/weapon, mob/user, proximity_flag, click_parameters)
