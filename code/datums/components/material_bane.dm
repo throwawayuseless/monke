@@ -39,6 +39,7 @@
 	RegisterSignal(parent, COMSIG_LIVING_PICKED_UP_ITEM, PROC_REF(check_for_bane_start))
 	RegisterSignal(parent, COMSIG_HUMAN_EQUIPPING_ITEM, PROC_REF(check_for_bane_start))
 	RegisterSignal(parent, COMSIG_CARBON_EMBED_ADDED, PROC_REF(check_for_bane_start))
+	RegisterSignal(parent, COMSIG_ATOM_ENTERING, PROC_REF(check_floor))
 
 /datum/component/material_bane/UnregisterFromParent()
 	UnregisterSignal(parent, list(COMSIG_ATOM_AFTER_ATTACKEDBY, COMSIG_ATOM_HITBY, COMSIG_LIVING_PICKED_UP_ITEM, COMSIG_HUMAN_EQUIPPING_ITEM, COMSIG_CARBON_EMBED_ADDED))
@@ -183,3 +184,11 @@
 	if(is_this_bane(maybebane))
 		START_PROCESSING(SSfastprocess, src)
 	return
+
+/datum/component/proc/check_floor(datum/source, atom/destination, atom/old_loc, list/atom/old_locs)
+	SIGNAL_HANDLER
+	if(isturf(destination) && !H.shoes)
+		if(is_this_bane(destination))
+			START_PROCESSING(SSfastprocess)
+	return
+	
