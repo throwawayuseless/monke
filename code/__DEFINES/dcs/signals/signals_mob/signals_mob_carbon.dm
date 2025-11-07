@@ -171,3 +171,6 @@
 #define COMSIG_MUTATION_GAINED "mutation_gained"
 ///Called from on_losing(mob/living/carbon/human/owner)
 #define COMSIG_MUTATION_LOST "mutation_lost"
+
+///sent to whoever knocks on or bashes a window with attack_hand(the window, the guy hitting it)
+#define COMSIG_KNOCKED_WINDOW "knocked_window"
