@@ -85,6 +85,10 @@
 	icon_state = "holy_arrow_projectile"
 	damage = 20
 
+/obj/projectile/bullet/arrow/blazing/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/bane_inducing, null, "holy things")
+
 /obj/projectile/bullet/arrow/blazing/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()
 	if(!ishuman(target))
