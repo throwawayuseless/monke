@@ -57,6 +57,10 @@
 	id = "lasting_frozen"
 	duration = STATUS_EFFECT_PERMANENT
 
+/datum/status_effect/freon/magic_overload
+	duration = 15 SECONDS
+	can_melt = FALSE
+
 /datum/status_effect/hypernob_protection
 	id = "hypernob_protection"
 	duration = 10 SECONDS

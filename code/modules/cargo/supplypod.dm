@@ -151,6 +151,25 @@
 	effectMissile = TRUE
 	shrapnel_type = /obj/projectile/bullet/shrapnel/short_range
 
+/obj/structure/closet/supplypod/anvil
+	name = "anvil"
+	desc = "Punishment for your hubris."
+	icon = 'monkestation/code/modules/smithing/icons/forge_structures.dmi'
+	icon_state = "anvil_empty"
+	delays = list(POD_TRANSIT = 2.6 SECONDS, POD_FALLING = 0.8 SECONDS)
+	effectStun = FALSE
+	damage = 50
+	effectMissile = TRUE
+	explosionSize = list(0,0,0,0)
+	rubble_type = RUBBLE_THIN
+	decal = null
+	door = null
+	fin_mask = null
+
+/obj/structure/closet/supplypod/anvil/stun
+	effectStun = TRUE
+	specialised = TRUE
+
 /datum/armor/closet_supplypod
 	melee = 30
 	bullet = 50
